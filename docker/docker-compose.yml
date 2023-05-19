@@ -1,0 +1,29 @@
+version: "3.8"
+services:
+  carefer-php:
+    image: carefer-php-${CAREFER_PHP_VERSION}
+    build:
+      context: ./php-${CAREFER_PHP_VERSION}
+    container_name: carefer-php-${ENV}
+    hostname: carefer-${ENV}
+    working_dir: /var/www
+    restart: always
+    networks:
+      - carefer-network
+    expose:
+      - 80
+    ports:
+      - ${CAREFER_HOST_PORT:?err}:80
+    environment:
+      - PROJECT_PATH=/var/www/public
+      - COMPOSER_MEMORY_LIMIT=-1
+      - XDEBUG_MODE=${CAREFER_XDEBUG_MODE:-debug}
+      - XDEBUG_REMOTE_PORT=${CAREFER_XDEBUG_REMOTE_PORT}
+    volumes:
+      - ${CAREFER_HOST_WORKING_DIR}:/var/www:delegated
+      - ./php-${CAREFER_PHP_VERSION}/.composer:/home/${CONTAINER_USER}/.composer:delegated
+      - ./php-${CAREFER_PHP_VERSION}/log/apache2:/var/log/apache2:delegated
+
+networks:
+  carefer-network:
+    driver: bridge
