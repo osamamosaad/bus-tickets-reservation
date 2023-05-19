@@ -1,0 +1,4 @@
+php-8.2/log/apache2/*.log
+
+mysql/data/*
+!mysql/data/.gitkeep
