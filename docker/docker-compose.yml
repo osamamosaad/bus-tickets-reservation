@@ -21,7 +21,7 @@ services:
       - XDEBUG_REMOTE_PORT=${CAREFER_XDEBUG_REMOTE_PORT}
     volumes:
       - ${CAREFER_HOST_WORKING_DIR}:/var/www:delegated
-      - ./php-${CAREFER_PHP_VERSION}/.composer:/home/${CONTAINER_USER}/.composer:delegated
+      - ./php-${CAREFER_PHP_VERSION}/.composer:/home/osama/.composer:delegated
       - ./php-${CAREFER_PHP_VERSION}/log/apache2:/var/log/apache2:delegated
 
   carefer-mysql:
@@ -42,6 +42,24 @@ services:
       - MYSQL_PASSWORD=${CAREFER_MYSQL_PASSWORD}
     volumes:
       - ${CAREFER_MYSQL_HOST_VOLUME}:/var/lib/mysql:delegated
+  carefer-pma:
+    image: phpmyadmin/phpmyadmin
+    container_name: carefer-pma-${ENV}
+    hostname: carefer-pma-${ENV}
+    restart: always
+    networks:
+      - carefer-network
+    expose:
+      - 80
+    ports:
+      - ${CAREFER_PMA_HOST_PORT:?err}:80
+    environment:
+      - PMA_HOST=carefer-mysql8-${ENV}
+      - PMA_PORT=${CAREFER_MYSQL_HOST_PORT}
+      - PMA_USER=${CAREFER_MYSQL_USER}
+      - PMA_PASSWORD=${CAREFER_MYSQL_PASSWORD}
+    depends_on:
+      - carefer-mysql
 
 networks:
   carefer-network:
