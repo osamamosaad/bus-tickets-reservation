@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('schedule', function (Blueprint $table) {
-            $table->increments('schedule_id');
+            $table->increments('id');
             $table->integer('bus_id')->unsigned();
             $table->integer('route_id')->unsigned();
             $table->dateTime('departure_time');
@@ -20,8 +20,8 @@ return new class extends Migration
             $table->decimal('price', 10, 2);
             $table->timestamps();
 
-            $table->foreign('bus_id')->references('bus_id')->on('bus');
-            $table->foreign('route_id')->references('route_id')->on('route');
+            $table->foreign('bus_id')->references('id')->on('bus');
+            $table->foreign('route_id')->references('id')->on('route');
         });
     }
 

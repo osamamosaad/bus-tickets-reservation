@@ -12,15 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('reservation', function (Blueprint $table) {
-            $table->increments('reservation_id');
+            $table->increments('id');
             $table->integer('passenger_id')->unsigned();
             $table->integer('schedule_id')->unsigned();
             $table->integer('seat_id')->unsigned();
             $table->timestamps();
 
-            $table->foreign('passenger_id')->references('passenger_id')->on('passenger');
-            $table->foreign('schedule_id')->references('schedule_id')->on('schedule');
-            $table->foreign('seat_id')->references('seat_id')->on('seat');
+            $table->foreign('passenger_id')->references('id')->on('passenger');
+            $table->foreign('schedule_id')->references('id')->on('schedule');
+            $table->foreign('seat_id')->references('id')->on('seat');
         });
     }
 
