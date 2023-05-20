@@ -14,6 +14,9 @@ RUN pecl install xdebug
 
 RUN docker-php-ext-enable xdebug
 
+RUN docker-php-ext-install -j$(nproc) mysqli
+RUN docker-php-ext-install -j$(nproc) pdo_mysql
+
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
