@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Bus;
-use App\Models\Seat;
+use App\Core\Infrastructure\Models\Bus;
+use App\Core\Infrastructure\Models\Seat;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;

@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Passenger;
+use App\Core\Infrastructure\Models\Passenger;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;

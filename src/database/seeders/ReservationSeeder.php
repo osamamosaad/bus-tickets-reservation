@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Reservation;
-use App\Models\Schedule;
-use App\Models\Seat;
+use App\Core\Infrastructure\Models\Reservation;
+use App\Core\Infrastructure\Models\Schedule;
+use App\Core\Infrastructure\Models\Seat;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -60,19 +60,20 @@ class ReservationSeeder extends Seeder
         $schedules = Schedule::all(['id', 'bus_id'])->keyBy('id')->toArray();
 
         foreach ($passengersWithSeats as $passengerWithSeats) {
+            $reservation = Reservation::create([
+                'passenger_id' => $passengerWithSeats['passenger_id'],
+                'schedule_id' => $passengerWithSeats['schedule_id'],
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+                'status' => $passengerWithSeats['status'],
+            ]);
+
             foreach ($passengerWithSeats['seats'] as $seatNumber) {
                 $seat = Seat::where('bus_id', $schedules[$passengerWithSeats['schedule_id']]['bus_id'])
                     ->where('seat_number', $seatNumber)
                     ->first();
 
-                Reservation::create([
-                    'passenger_id' => $passengerWithSeats['passenger_id'],
-                    'schedule_id' => $passengerWithSeats['schedule_id'],
-                    'seat_id' => $seat->id,
-                    'created_at' => Carbon::now(),
-                    'updated_at' => Carbon::now(),
-                    'status' => $passengerWithSeats['status'],
-                ]);
+                $reservation->seats()->attach($seat->id);
             }
         }
     }

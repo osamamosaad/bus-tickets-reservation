@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Route;
+use App\Core\Infrastructure\Models\Route;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;

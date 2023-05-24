@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Schedule;
+use App\Core\Infrastructure\Models\Schedule;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
