@@ -23,9 +23,7 @@ class AppServiceProvider extends ServiceProvider
         if (config('database.connections.mysql.log_queries')) {
             DB::listen(function ($query) {
                 Log::info(
-                    $query->sql,
-                    $query->bindings,
-                    $query->time
+                    $query->sql . ' | bindings: ' . json_encode($query->bindings) . ' | query time: ' . $query->time
                 );
             });
         }
