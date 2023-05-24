@@ -15,12 +15,10 @@ return new class extends Migration
             $table->increments('id');
             $table->integer('passenger_id')->unsigned();
             $table->integer('schedule_id')->unsigned();
-            $table->integer('seat_id')->unsigned();
             $table->timestamps();
 
             $table->foreign('passenger_id')->references('id')->on('passenger');
             $table->foreign('schedule_id')->references('id')->on('schedule');
-            $table->foreign('seat_id')->references('id')->on('seat');
         });
     }
 

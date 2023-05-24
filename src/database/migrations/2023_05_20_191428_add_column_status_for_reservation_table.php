@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Reservation;
+use App\Core\Infrastructure\Models\Reservation;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -20,7 +20,7 @@ return new class extends Migration
                 Reservation::STATUS_REJECTED,
                 Reservation::STATUS_CANCELED,
             ])->default(Reservation::STATUS_PENDING)
-            ->after('seat_id');
+            ->after('schedule_id');
         });
     }
 
