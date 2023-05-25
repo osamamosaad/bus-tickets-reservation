@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Core\Application\Commands\CreateReservationCommand;
 use App\Core\Application\Queries\ReservationsQuery;
+use App\Core\Infrastructure\Adapters\Request as AdaptersRequest;
 use App\Core\Infrastructure\Models\Reservation;
 use App\Core\Infrastructure\Repositories\ReservationRepository;
 use App\Http\Resources\ReservationResource;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ReservationController extends Controller
 {
@@ -75,8 +76,30 @@ class ReservationController extends Controller
      *     )
      * )
      */
-    public function create(CreateReservationCommand $createReservation)
+    public function create(CreateReservationCommand $createReservation, AdaptersRequest $request)
     {
+
+        $validator = Validator::make($request->getBodyRequest(), [
+            'seats' => 'required|array|min:1',
+            'scheduleId' => 'required|integer',
+            'passenger.name' => 'required',
+            'passenger.email' => 'required|email',
+            'pickup' => 'required',
+            'destination' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Validation error',
+                'errors' => $validator->errors()
+            ], 400);
+        }
+
         return new ReservationResource($createReservation->execute());
+    }
+
+    public function getMostFrequentTrip(ReservationsQuery $reservationQuery)
+    {
+        return $reservationQuery->getMostFrequentTrip();
     }
 }

@@ -12,4 +12,6 @@ interface ReservationRepositoryInterface
      * @return array
      */
     public function getReservedSeats($scheduleId): array;
+
+    public function getMostFrequentTrip(): array;
 }

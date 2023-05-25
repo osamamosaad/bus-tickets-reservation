@@ -27,4 +27,9 @@ class ReservationsQuery
 
         throw new NotFoundException("Reservation not found");
     }
+
+    public function getMostFrequentTrip(): array
+    {
+        return $this->reservationRepository->getMostFrequentTrip();
+    }
 }

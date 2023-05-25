@@ -4,6 +4,7 @@ namespace App\Core\Infrastructure\Repositories;
 
 use App\Core\Infrastructure\Models\Reservation;
 use App\Core\Libraries\Reservation\Repositories\ReservationRepositoryInterface;
+use Illuminate\Support\Facades\DB;
 
 class ReservationRepository implements ReservationRepositoryInterface
 {
@@ -40,5 +41,17 @@ class ReservationRepository implements ReservationRepositoryInterface
             ->where('status', "=", "approved")
             ->get()
             ->toArray();
+    }
+
+    public function getMostFrequentTrip(): array
+    {
+        return $this->reservationModel
+            ->join('passenger', 'passenger.id', '=', 'reservation.passenger_id')
+            ->join('schedule', 'schedule.id', '=', 'reservation.schedule_id')
+            ->join('route', 'route.id', '=', 'schedule.route_id')
+            ->select('passenger.email', 'route.name', DB::raw('count(route.id) as frequency'))
+            ->groupBy('route.id', 'reservation.passenger_id')
+            ->orderByDesc('frequency')
+            ->get()->toArray();
     }
 }
