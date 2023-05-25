@@ -2,95 +2,50 @@
 
 namespace App\Core\Application\Commands;
 
-use Illuminate\Support\Facades\DB;
 use App\Core\Infrastructure\{
-    Exceptions\BusDepartedException,
-    Exceptions\NotAvilableSeatException,
-    Exceptions\NotReservableSeatException,
+    Adapters\LockerService,
+    Exceptions\BusReservationBusyException,
+    Models\Reservation as ReservationModel,
 };
 use App\Core\Libraries\{
-    Bus\Repositories\ScheduleRepositoryInterface,
     Common\RequestInterface,
-    Passenger\Passenger,
-    Reservation\Repositories\ReservationRepositoryInterface,
     Reservation\Reservation,
+    Services\ReservationService,
 };
 
 class CreateReservationCommand
 {
+    const LOCK_DURATION = 60 * 2; // Lock duration in seconds
+
     public function __construct(
         private RequestInterface $request,
-        private Passenger $passengerlib,
-        private Reservation $reservationlib,
-        private ScheduleRepositoryInterface $scheduleRepository,
-        private ReservationRepositoryInterface $reservationRepository,
+        private LockerService $lockerService,
+        private ReservationService $reservationService,
     ) {
     }
 
-    public function execute()
+    public function execute(): ReservationModel
     {
         $data = $this->request->getBodyRequest();
-        $passenger = $this->passengerlib->create(
-            $data['passenger']['name'],
-            $data['passenger']['email']
-        );
 
-        try {
-            DB::beginTransaction();
+        $lockKey = 'lock:schedule:' . $data['scheduleId'];
 
-            // check if the schedule is not missed
-            $schedule = $this->scheduleRepository->getUpcomingSchedule($data["scheduleId"]);
-            if (!$schedule) {
-                throw new BusDepartedException();
+        $acquired = $this->lockerService->lock($lockKey, $data['passenger']['email'], self::LOCK_DURATION);
+
+        if ($acquired === true || $this->lockerService->getVal($lockKey) === $data['passenger']['email']) {
+
+            $reservation = $this->reservationService->execute($data);
+            /**
+             * Only release the lock if the reservation is approved,
+             * to give the passanger chance if there is someting wrong happened
+             */
+            if ($reservation->status === Reservation::STATUS_APPROVED) {
+                $this->lockerService->release($lockKey);
             }
 
-            // Filter the seats from duplicate
-            $requestedSeats = array_unique($data["seats"]);
-            $activeReservation = $this->reservationRepository->getReservedSeats($data["scheduleId"]);
-
-            $this->checkSeatsAvilabelity($schedule, $activeReservation, $requestedSeats);
-            $this->isReservable($activeReservation, $requestedSeats);
-
-            // Create the reservation and set the seats
-            $reservation = $this->reservationlib->reserve(
-                $passenger->id,
-                $schedule->id,
-                array_column($activeReservation, "id")
-            );
-
-
-            DB::commit();
             return $reservation;
-        } catch (\Throwable $th) {
-            DB::rollBack();
-
-            throw $th;
-        }
-    }
-
-    public function checkSeatsAvilabelity($schedule, array $activeReservation, array $requestedSeats): bool
-    {
-        $seatsNumber = array_column($activeReservation, "seat_number");
-
-        $avilabelSeats = $schedule->bus->capacity - count($seatsNumber);
-
-        if ($avilabelSeats >= count($requestedSeats)) {
-            return true;
         }
 
-        throw new NotAvilableSeatException($avilabelSeats, count($requestedSeats));
-    }
-
-    public function isReservable(array $activeReservation, $requestedSeats): bool
-    {
-        $seatsNumber = array_column($activeReservation, "seat_number");
-
-        $seatsIntersection = array_intersect($seatsNumber, $requestedSeats);
-
-        if (!empty($seatsIntersection)) {
-            throw new NotReservableSeatException($seatsIntersection);
-        }
-
-        return true;
+        throw new BusReservationBusyException();
     }
 }
