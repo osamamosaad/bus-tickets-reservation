@@ -54,4 +54,11 @@ class ReservationRepository implements ReservationRepositoryInterface
             ->orderByDesc('frequency')
             ->get()->toArray();
     }
+
+    public function getReservation(int $id, array $status): ?Reservation
+    {
+        return $this->reservationModel
+            ->whereIn('status', $status)
+            ->find($id);
+    }
 }

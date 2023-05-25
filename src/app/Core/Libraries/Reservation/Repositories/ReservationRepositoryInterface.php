@@ -2,6 +2,8 @@
 
 namespace App\Core\Libraries\Reservation\Repositories;
 
+use App\Core\Infrastructure\Models\Reservation;
+
 interface ReservationRepositoryInterface
 {
     /**
@@ -14,4 +16,6 @@ interface ReservationRepositoryInterface
     public function getReservedSeats($scheduleId): array;
 
     public function getMostFrequentTrip(): array;
+
+    public function getReservation(int $id, array $status): ?Reservation;
 }

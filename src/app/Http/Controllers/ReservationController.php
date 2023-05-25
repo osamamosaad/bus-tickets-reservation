@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Core\Application\Commands\CancelReservationCommand;
 use App\Core\Application\Commands\CreateReservationCommand;
 use App\Core\Application\Queries\ReservationsQuery;
 use App\Core\Infrastructure\Adapters\Request as AdaptersRequest;
@@ -101,5 +102,12 @@ class ReservationController extends Controller
     public function getMostFrequentTrip(ReservationsQuery $reservationQuery)
     {
         return $reservationQuery->getMostFrequentTrip();
+    }
+
+    public function delete(int $id, CancelReservationCommand $cancelReservationCommand)
+    {
+        $cancelReservationCommand->execute($id);
+
+        return response()->status(200);
     }
 }
