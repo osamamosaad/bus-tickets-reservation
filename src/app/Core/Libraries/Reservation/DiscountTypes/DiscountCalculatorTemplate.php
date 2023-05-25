@@ -8,11 +8,12 @@ abstract class DiscountCalculatorTemplate
 
     public function calc($tripInfo, $discountInfo): float
     {
+        $totalPrice = $tripInfo["price"] * count($tripInfo['seats']);
         if (!$this->isEligible($tripInfo, $discountInfo)) {
-            return $tripInfo["price"];
+            return $totalPrice;
         }
 
-        $discountAmount =  $tripInfo["price"] * ($discountInfo->discount_percentage / 100);
-        return $tripInfo["price"] - $discountAmount;
+        $discountAmount =  $totalPrice * ($discountInfo->discount_percentage / 100);
+        return $totalPrice - $discountAmount;
     }
 }
