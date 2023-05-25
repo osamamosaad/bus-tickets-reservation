@@ -4,6 +4,7 @@ namespace App\Core\Infrastructure\Repositories;
 
 use App\Core\Infrastructure\Models\Schedule;
 use App\Core\Libraries\Bus\Repositories\ScheduleRepositoryInterface;
+use Illuminate\Support\Collection;
 
 class ScheduleRepository implements ScheduleRepositoryInterface
 {
@@ -12,7 +13,7 @@ class ScheduleRepository implements ScheduleRepositoryInterface
     ) {
     }
 
-    public function list()
+    public function list(): Collection
     {
         return $this->scheduleModel->with(['route', 'bus'])->get();
     }
