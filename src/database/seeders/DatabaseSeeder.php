@@ -12,7 +12,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-
         $this->call(BusSeeder::class);
         $this->call(RouteSeeder::class);
         $this->call(ScheduleSeeder::class);

@@ -8,10 +8,10 @@ use App\Core\Libraries\Reservation\Repositories\ReservationRepositoryInterface;
 
 class Reservation
 {
-    const STATUS_PENDING = 'pending';
-    const STATUS_APPROVED = 'approved';
-    const STATUS_REJECTED = 'rejected';
-    const STATUS_CANCELED = 'canceled';
+    public const STATUS_PENDING = 'pending';
+    public const STATUS_APPROVED = 'approved';
+    public const STATUS_REJECTED = 'rejected';
+    public const STATUS_CANCELED = 'canceled';
 
     public function __construct(
         private ReservationDiscount $reservationDiscount,
@@ -53,7 +53,7 @@ class Reservation
         ]);
 
         if (is_null($reservation)) {
-            throw new NotFoundException("Reservation not found");
+            throw new NotFoundException('Reservation not found');
         }
 
         $lastStatus = $reservation->status;
@@ -61,9 +61,9 @@ class Reservation
         $reservation->save();
 
         if ($lastStatus == self::STATUS_APPROVED) {
-            # fire event to rollback the payment
+            // fire event to rollback the payment
         } else {
-            # fire event for pending reservation
+            // fire event for pending reservation
         }
     }
 }

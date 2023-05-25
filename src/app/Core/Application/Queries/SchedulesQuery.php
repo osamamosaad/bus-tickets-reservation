@@ -4,7 +4,6 @@ namespace App\Core\Application\Queries;
 
 use App\Core\Infrastructure\Exceptions\NotFoundException;
 use App\Core\Libraries\Bus\Repositories\ScheduleRepositoryInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class SchedulesQuery
 {
@@ -24,6 +23,6 @@ class SchedulesQuery
             return $schedule;
         }
 
-        throw new NotFoundException("No trip found");
+        throw new NotFoundException('No trip found');
     }
 }

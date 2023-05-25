@@ -8,6 +8,8 @@ use Illuminate\Support\Collection;
 interface ScheduleRepositoryInterface
 {
     public function getUpcomingSchedule(int $scheduleId);
+
     public function list(): Collection;
+
     public function getOne(int $id): ?Schedule;
 }

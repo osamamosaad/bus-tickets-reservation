@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\DB;
 
 class PassengerSeeder extends Seeder
 {
-
     public function run()
     {
         $this->truncate();
@@ -23,7 +22,6 @@ class PassengerSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ]);
         }
-
     }
 
     private function truncate()

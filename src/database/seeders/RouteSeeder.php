@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\DB;
 
 class RouteSeeder extends Seeder
 {
-
     public function run()
     {
         $this->truncate();

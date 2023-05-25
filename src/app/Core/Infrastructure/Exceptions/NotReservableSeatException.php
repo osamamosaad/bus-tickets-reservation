@@ -9,7 +9,7 @@ class NotReservableSeatException extends ValidationException implements \Throwab
     public function __construct(array $seatsNotAvailable)
     {
         parent::__construct(
-            "Seats Already Reserved - [ " . implode(",", $seatsNotAvailable) . " ]"
+            'Seats Already Reserved - [ ' . implode(',', $seatsNotAvailable) . ' ]'
         );
     }
 }

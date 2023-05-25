@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\DB;
 
 class ReservationSeeder extends Seeder
 {
-
     public function run()
     {
         $this->truncate();

@@ -32,13 +32,13 @@ class ReservationRepository implements ReservationRepositoryInterface
     {
         return $this->reservationModel
             ->select(
-                "seat.id",
-                "seat.seat_number",
+                'seat.id',
+                'seat.seat_number',
             )
-            ->join("reservation_seat", "reservation_seat.reservation_id", "=", "reservation.id")
-            ->join("seat", "seat.id", "=", "reservation_seat.seat_id")
-            ->where('schedule_id', "=", $scheduleId)
-            ->where('status', "=", "approved")
+            ->join('reservation_seat', 'reservation_seat.reservation_id', '=', 'reservation.id')
+            ->join('seat', 'seat.id', '=', 'reservation_seat.seat_id')
+            ->where('schedule_id', '=', $scheduleId)
+            ->where('status', '=', 'approved')
             ->get()
             ->toArray();
     }

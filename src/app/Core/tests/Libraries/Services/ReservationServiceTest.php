@@ -1,4 +1,5 @@
 <?php
+
 include_once __DIR__ . '/ReservationServiceTestHelper.php';
 
 use App\Core\Infrastructure\Exceptions\BusDepartedException;
@@ -7,11 +8,11 @@ use App\Core\Infrastructure\Exceptions\NotReservableSeatException;
 use App\Core\Infrastructure\Models\Reservation as ReservationModel;
 use App\Core\Libraries\Bus\Repositories\ScheduleRepositoryInterface;
 use App\Core\Libraries\Bus\Repositories\SeatRepositoryInterface;
-use App\Core\Libraries\Common\RequestInterface;
 use App\Core\Libraries\Common\DatabaseManagerInterface;
+use App\Core\Libraries\Common\RequestInterface;
 use App\Core\Libraries\Passenger\Passenger;
-use App\Core\Libraries\Reservation\Reservation;
 use App\Core\Libraries\Reservation\Repositories\ReservationRepositoryInterface;
+use App\Core\Libraries\Reservation\Reservation;
 use App\Core\Libraries\Services\ReservationService;
 use Mockery;
 use PHPUnit\Framework\TestCase;
@@ -19,6 +20,7 @@ use PHPUnit\Framework\TestCase;
 class ReservationServiceTest extends TestCase
 {
     use ReservationServiceTestHelper;
+
     protected function tearDown(): void
     {
         Mockery::close();
@@ -83,7 +85,6 @@ class ReservationServiceTest extends TestCase
 
     public function testExecuteThrowsNotAvilableSeatException()
     {
-
         $seatRepository = Mockery::mock(SeatRepositoryInterface::class);
         $busId = 1;
         $seatRepository->shouldReceive('getBusSeatIdsBySeatNums')
@@ -118,7 +119,6 @@ class ReservationServiceTest extends TestCase
             'seats' => ['A1', 'A2'],
         ]);
     }
-
 
     public function testExecuteThrowsNotReservableSeatException()
     {
@@ -166,11 +166,10 @@ class ReservationServiceTest extends TestCase
 
     public function testExecuteReturnsReservation()
     {
-
         $schedule = (object) [
             'id' => 123,
             'bus' => (object) [
-                "id" => 1,
+                'id' => 1,
                 'capacity' => 10,
             ],
             'route' => (object) [
@@ -231,7 +230,7 @@ class ReservationServiceTest extends TestCase
         $schedule = (object) [
             'id' => 123,
             'bus' => (object) [
-                "id" => 1,
+                'id' => 1,
                 'capacity' => 10,
             ],
             'route' => (object) [

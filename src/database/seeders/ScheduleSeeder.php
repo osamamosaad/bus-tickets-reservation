@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\DB;
 
 class ScheduleSeeder extends Seeder
 {
-
     public function run()
     {
         $this->truncate();
@@ -38,7 +37,6 @@ class ScheduleSeeder extends Seeder
         foreach ($schedules as $scheduleData) {
             Schedule::create($scheduleData);
         }
-
     }
 
     private function truncate()

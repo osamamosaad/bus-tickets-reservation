@@ -6,8 +6,8 @@ use App\Core\Libraries\Bus\Repositories\ScheduleRepositoryInterface;
 use App\Core\Libraries\Bus\Repositories\SeatRepositoryInterface;
 use App\Core\Libraries\Common\DatabaseManagerInterface;
 use App\Core\Libraries\Passenger\Passenger;
-use App\Core\Libraries\Reservation\Reservation;
 use App\Core\Libraries\Reservation\Repositories\ReservationRepositoryInterface;
+use App\Core\Libraries\Reservation\Reservation;
 
 trait ReservationServiceTestHelper
 {
@@ -25,6 +25,7 @@ trait ReservationServiceTestHelper
         $databaseManager->shouldReceive('beginTransaction');
         $databaseManager->shouldReceive('commit');
         $databaseManager->shouldReceive('rollback');
+
         return $databaseManager;
     }
 
@@ -63,7 +64,7 @@ trait ReservationServiceTestHelper
             'route' => (object) [
                 'id' => 1, // Provide a valid rout ID
             ],
-            'price' => 100
+            'price' => 100,
         ];
 
         $scheduleRepository = Mockery::mock(ScheduleRepositoryInterface::class);

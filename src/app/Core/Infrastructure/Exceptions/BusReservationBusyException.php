@@ -9,7 +9,7 @@ class BusReservationBusyException extends ForbiddenException implements \Throwab
     public function __construct()
     {
         parent::__construct(
-            "Bus Reservation is Busy at the moment, please try again after some time",
+            'Bus Reservation is Busy at the moment, please try again after some time',
             0
         );
     }

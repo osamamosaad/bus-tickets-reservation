@@ -2,20 +2,16 @@
 
 namespace App\Core\Application\Commands;
 
-use App\Core\Infrastructure\{
-    Adapters\LockerService,
-    Exceptions\BusReservationBusyException,
-    Models\Reservation as ReservationModel,
-};
-use App\Core\Libraries\{
-    Common\RequestInterface,
-    Reservation\Reservation,
-    Services\ReservationService,
-};
+use App\Core\Infrastructure\Adapters\LockerService;
+use App\Core\Infrastructure\Exceptions\BusReservationBusyException;
+use App\Core\Infrastructure\Models\Reservation as ReservationModel;
+use App\Core\Libraries\Common\RequestInterface;
+use App\Core\Libraries\Reservation\Reservation;
+use App\Core\Libraries\Services\ReservationService;
 
 class CreateReservationCommand
 {
-    const LOCK_DURATION = 60 * 2; // Lock duration in seconds
+    public const LOCK_DURATION = 60 * 2; // Lock duration in seconds
 
     public function __construct(
         private RequestInterface $request,
@@ -33,7 +29,6 @@ class CreateReservationCommand
         $acquired = $this->lockerService->lock($lockKey, $data['passenger']['email'], self::LOCK_DURATION);
 
         if ($acquired === true || $this->lockerService->getVal($lockKey) === $data['passenger']['email']) {
-
             $reservation = $this->reservationService->execute($data);
             /**
              * Only release the lock if the reservation is approved,

@@ -2,20 +2,16 @@
 
 namespace App\Core\Infrastructure\Providers;
 
-use App\Core\Infrastructure\{
-    Repositories\PassengerRepository,
-    Repositories\ReservationRepository,
-    Repositories\ScheduleRepository,
-    Repositories\SeatRepository,
-};
 use App\Core\Infrastructure\Repositories\DiscountRepository;
-use App\Core\Libraries\{
-    Bus\Repositories\ScheduleRepositoryInterface,
-    Bus\Repositories\SeatRepositoryInterface,
-    Passenger\Repositories\PassengerRepositoryInterface,
-    Reservation\Repositories\ReservationRepositoryInterface,
-};
+use App\Core\Infrastructure\Repositories\PassengerRepository;
+use App\Core\Infrastructure\Repositories\ReservationRepository;
+use App\Core\Infrastructure\Repositories\ScheduleRepository;
+use App\Core\Infrastructure\Repositories\SeatRepository;
+use App\Core\Libraries\Bus\Repositories\ScheduleRepositoryInterface;
+use App\Core\Libraries\Bus\Repositories\SeatRepositoryInterface;
+use App\Core\Libraries\Passenger\Repositories\PassengerRepositoryInterface;
 use App\Core\Libraries\Reservation\Repositories\DiscountRepositoryInterface;
+use App\Core\Libraries\Reservation\Repositories\ReservationRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoriesProvider extends ServiceProvider

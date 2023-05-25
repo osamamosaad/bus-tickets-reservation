@@ -8,16 +8,15 @@ use Illuminate\Support\Facades\DB;
 
 class DiscountSeeder extends Seeder
 {
-
     public function run()
     {
         $this->truncate();
 
         Discount::create([
-            'type' => "seat",
+            'type' => 'seat',
             'value' => 5,
             'discount_percentage' => 10,
-            'expired_at' => date_create()->modify('+30 day')
+            'expired_at' => date_create()->modify('+30 day'),
         ]);
     }
 

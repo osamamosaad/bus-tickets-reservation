@@ -15,7 +15,7 @@ class Passenger
     public function create(string $name, string $email): PassengerModel
     {
         $passenger = $this->passengerRepository->findByEmail($email);
-        if (!$passenger) {
+        if (! $passenger) {
             $passenger = new PassengerModel();
             $passenger->name = $name;
             $passenger->email = $email;

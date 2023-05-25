@@ -58,6 +58,7 @@ class ReservationController extends Controller
     public function get(int $id, ReservationsQuery $reservationQuery)
     {
         $reservation = $reservationQuery->getOne($id);
+
         return new ReservationResource($reservation);
     }
 
@@ -79,7 +80,6 @@ class ReservationController extends Controller
      */
     public function create(CreateReservationCommand $createReservation, AdaptersRequest $request)
     {
-
         $validator = Validator::make($request->getBodyRequest(), [
             'seats' => 'required|array|min:1',
             'scheduleId' => 'required|integer',
@@ -92,7 +92,7 @@ class ReservationController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 'message' => 'Validation error',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 400);
         }
 

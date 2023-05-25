@@ -7,4 +7,3 @@ $files = File::allFiles(__DIR__ . '/ApiRoutes');
 foreach ($files as $file) {
     require_once $file->getPathname();
 }
-

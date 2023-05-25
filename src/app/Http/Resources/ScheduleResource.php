@@ -13,9 +13,9 @@ class ScheduleResource extends JsonResource
             'type' => 'Schedule',
             'id' => $this->id,
             'attributes' => [
-                "bus" => [
-                    "busNumber" => $this->bus->bus_number,
-                    "capacity" => $this->bus->capacity
+                'bus' => [
+                    'busNumber' => $this->bus->bus_number,
+                    'capacity' => $this->bus->capacity,
                 ],
                 'routeName' => $this->route->name,
                 'price' => $this->price,

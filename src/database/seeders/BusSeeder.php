@@ -8,10 +8,8 @@ use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-
 class BusSeeder extends Seeder
 {
-
     public function run()
     {
         $this->truncate();
@@ -38,7 +36,6 @@ class BusSeeder extends Seeder
         $bus1 = Bus::find(1);
         $bus2 = Bus::find(2);
 
-
         for ($i = 1; $i <= 10; $i++) {
             $bus1->seats()->create([
                 'seat_number' => 'A' . $i,
@@ -52,7 +49,6 @@ class BusSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ]);
         }
-
 
         for ($i = 1; $i <= $bus2->capacity; $i++) {
             $bus2->seats()->create([

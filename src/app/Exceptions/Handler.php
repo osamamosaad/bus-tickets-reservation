@@ -3,13 +3,12 @@
 namespace App\Exceptions;
 
 use Illuminate\Auth\Access\AuthorizationException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Response;
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -35,7 +34,6 @@ class Handler extends ExceptionHandler
         });
 
         $this->renderable(function (Throwable $exception) {
-
             $status = Response::HTTP_INTERNAL_SERVER_ERROR;
             if ($exception instanceof HttpResponseException) {
                 $status = Response::HTTP_INTERNAL_SERVER_ERROR;
@@ -44,7 +42,7 @@ class Handler extends ExceptionHandler
                 $exception = new MethodNotAllowedHttpException([], 'HTTP_METHOD_NOT_ALLOWED', $exception);
             } elseif ($exception instanceof NotFoundHttpException || $exception instanceof NotFoundException) {
                 $status = Response::HTTP_NOT_FOUND;
-                $exception = new NotFoundHttpException($exception->getMessage() ?? "Not found", $exception);
+                $exception = new NotFoundHttpException($exception->getMessage() ?? 'Not found', $exception);
             } elseif ($exception instanceof AuthorizationException || $exception instanceof ForbiddenException) {
                 $status = Response::HTTP_FORBIDDEN;
                 $exception = new AuthorizationException($exception->getMessage() ?? 'Forbidden', $status);
@@ -59,7 +57,7 @@ class Handler extends ExceptionHandler
 
             return response()->json([
                 'status' => $status,
-                'message' => $exception->getMessage()
+                'message' => $exception->getMessage(),
             ], $status);
         });
     }

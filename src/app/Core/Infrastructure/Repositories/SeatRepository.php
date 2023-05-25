@@ -11,10 +11,11 @@ class SeatRepository implements SeatRepositoryInterface
         private Seat $seatModel
     ) {
     }
+
     public function getBusSeatIdsBySeatNums(array $seatNums, int $busId): array
     {
         return $this->seatModel
-            ->where("bus_id", "=", $busId)
+            ->where('bus_id', '=', $busId)
             ->whereIn('seat_number', $seatNums)
             ->pluck('id')->toArray();
     }

@@ -3,7 +3,8 @@
 namespace App\Core\Infrastructure\Adapters;
 
 use App\Core\Libraries\Common\RequestInterface;
-use Illuminate\{Http\Request as ClientRequest, Support\Arr};
+use Illuminate\Http\Request as ClientRequest;
+use Illuminate\Support\Arr;
 
 class Request implements RequestInterface
 {
@@ -22,21 +23,21 @@ class Request implements RequestInterface
 
     public function getBodyRequest(): array
     {
-        return Arr::get($this->data, "data.attributes");
+        return Arr::get($this->data, 'data.attributes');
     }
 
     public function getFilter(string $parameter, $default = null)
     {
-        return Arr::get($this->data, "filter." . $parameter, $default);
+        return Arr::get($this->data, 'filter.' . $parameter, $default);
     }
 
     public function getSize($default = null): ?int
     {
-        return Arr::get($this->data, "page.size", $default);
+        return Arr::get($this->data, 'page.size', $default);
     }
 
     public function getStart($default = null): ?int
     {
-        return Arr::get($this->data, "page.start", $default);
+        return Arr::get($this->data, 'page.start', $default);
     }
 }
