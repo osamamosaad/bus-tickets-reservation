@@ -35,7 +35,7 @@ class Reservation
         $reservation->passenger_id = $passangerId;
         $reservation->schedule_id = $scheduleId;
         $reservation->status = $status;
-        $reservation->total_price = $totalPrice;
+        $reservation->price = $totalPrice;
         $reservation->save();
         $reservation->seats()->attach($seats);
 

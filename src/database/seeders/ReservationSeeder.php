@@ -20,39 +20,37 @@ class ReservationSeeder extends Seeder
             [
                 'passenger_id' => 1,
                 'schedule_id' => 1,
-                'seats' => ['A1', 'A2', 'B1', 'B2'],
+                'seats' => ['A1', 'A2'],
+                'price' => 100,
                 'status' => Reservation::STATUS_CANCELED,
             ],
             [
                 'passenger_id' => 2,
                 'schedule_id' => 1,
-                'seats' => ['A3', 'A4', 'B5', 'B6'],
+                'price' => 100,
+                'seats' => ['A3'],
                 'status' => Reservation::STATUS_APPROVED,
             ],
             [
                 'passenger_id' => 3,
                 'schedule_id' => 1,
-                'seats' => ['A10', 'A9', 'B10'],
+                'price' => 100,
+                'seats' => ['A4', 'A5'],
                 'status' => Reservation::STATUS_APPROVED,
             ],
 
             [
                 'passenger_id' => 4,
                 'schedule_id' => 2,
+                'price' => 150,
                 'seats' => ['A1'],
                 'status' => Reservation::STATUS_REJECTED,
-            ],
-
-            [
-                'passenger_id' => 5,
-                'schedule_id' => 2,
-                'seats' => ['A2', 'A3', 'A4', 'B1', 'B2', 'B3', 'B4'],
-                'status' => Reservation::STATUS_APPROVED,
             ],
             [
                 'passenger_id' => 7,
                 'schedule_id' => 2,
-                'seats' => ['B10', 'B9', 'B5', 'A10'],
+                'price' => 150,
+                'seats' => ['B1', 'B2', 'B3'],
                 'status' => Reservation::STATUS_APPROVED,
             ],
         ];
@@ -63,6 +61,7 @@ class ReservationSeeder extends Seeder
             $reservation = Reservation::create([
                 'passenger_id' => $passengerWithSeats['passenger_id'],
                 'schedule_id' => $passengerWithSeats['schedule_id'],
+                'price' => $passengerWithSeats['price'],
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
                 'status' => $passengerWithSeats['status'],
@@ -82,6 +81,7 @@ class ReservationSeeder extends Seeder
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
         Reservation::truncate();
+        DB::table('reservation_seat')->truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1');
     }
 }
