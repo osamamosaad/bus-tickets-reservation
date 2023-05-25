@@ -2,7 +2,6 @@
 
 namespace App\Core\Libraries\Services;
 
-use Illuminate\Support\Facades\DB;
 use App\Core\Infrastructure\{
     Exceptions\BusDepartedException,
     Exceptions\NotAvilableSeatException,
@@ -10,17 +9,17 @@ use App\Core\Infrastructure\{
 };
 use App\Core\Libraries\{
     Passenger\Passenger,
-    Common\RequestInterface,
     Bus\Repositories\ScheduleRepositoryInterface,
     Bus\Repositories\SeatRepositoryInterface,
     Reservation\Reservation,
     Reservation\Repositories\ReservationRepositoryInterface,
 };
+use App\Core\Libraries\Common\DatabaseManagerInterface;
 
 class ReservationService
 {
     public function __construct(
-        private RequestInterface $request,
+        private DatabaseManagerInterface $databaseManager,
         private Passenger $passengerlib,
         private Reservation $reservationlib,
         private ScheduleRepositoryInterface $scheduleRepository,
@@ -35,12 +34,12 @@ class ReservationService
             $data['passenger']['name'],
             $data['passenger']['email']
         );
-
         try {
-            DB::beginTransaction();
+            $this->databaseManager->beginTransaction();
 
             // check if the schedule is not missed
             $schedule = $this->scheduleRepository->getUpcomingSchedule($data["scheduleId"]);
+
             if (!$schedule) {
                 throw new BusDepartedException();
             }
@@ -62,10 +61,11 @@ class ReservationService
                     $data['status'] ?? Reservation::STATUS_APPROVED,
                 );
 
-            DB::commit();
+            $this->databaseManager->commit();
             return $reservation;
-        } catch (\Throwable $th) {
-            DB::rollBack();
+        } catch (\Exception $th) {
+            $this->databaseManager->rollback();
+
             throw $th;
         }
     }
