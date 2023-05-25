@@ -51,6 +51,8 @@ class Handler extends ExceptionHandler
             } elseif ($exception instanceof \Dotenv\Exception\ValidationException && $exception->getResponse()) {
                 $status = Response::HTTP_BAD_REQUEST;
                 $exception = new \Dotenv\Exception\ValidationException('HTTP_BAD_REQUEST', $status, $exception);
+            } elseif ($exception instanceof \App\Exceptions\ValidationException) {
+                $status = Response::HTTP_BAD_REQUEST;
             } elseif ($exception) {
                 $exception = new HttpException($status, 'HTTP_INTERNAL_SERVER_ERROR');
             }

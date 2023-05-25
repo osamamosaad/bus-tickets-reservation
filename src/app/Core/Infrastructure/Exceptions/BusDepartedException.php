@@ -2,10 +2,12 @@
 
 namespace App\Core\Infrastructure\Exceptions;
 
-class BusDepartedException extends \Exception implements \Throwable
+use App\Exceptions\ValidationException;
+
+class BusDepartedException extends ValidationException implements \Throwable
 {
     public function __construct()
     {
-        parent::__construct("The bus has already departed", 0);
+        parent::__construct("The bus has already departed");
     }
 }
