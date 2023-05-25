@@ -56,7 +56,9 @@ class ReservationService
             $reservation = $this->reservationlib->reserve(
                     $passenger->id,
                     $schedule->id,
+                    $schedule->route->id,
                     $this->seatRepository->getBusSeatIdsBySeatNums($requestedSeats, $schedule->bus->id),
+                    $schedule->price,
                     $data['status'] ?? Reservation::STATUS_APPROVED,
                 );
 
