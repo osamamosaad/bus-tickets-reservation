@@ -8,12 +8,14 @@ use App\Core\Infrastructure\{
     Repositories\ScheduleRepository,
     Repositories\SeatRepository,
 };
+use App\Core\Infrastructure\Repositories\DiscountRepository;
 use App\Core\Libraries\{
     Bus\Repositories\ScheduleRepositoryInterface,
     Bus\Repositories\SeatRepositoryInterface,
     Passenger\Repositories\PassengerRepositoryInterface,
     Reservation\Repositories\ReservationRepositoryInterface,
 };
+use App\Core\Libraries\Reservation\Repositories\DiscountRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoriesProvider extends ServiceProvider
@@ -38,6 +40,11 @@ class RepositoriesProvider extends ServiceProvider
         $this->app->singleton(
             SeatRepositoryInterface::class,
             SeatRepository::class
+        );
+
+        $this->app->singleton(
+            DiscountRepositoryInterface::class,
+            DiscountRepository::class
         );
     }
 }
