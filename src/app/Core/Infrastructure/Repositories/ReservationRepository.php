@@ -3,9 +3,9 @@
 namespace App\Core\Infrastructure\Repositories;
 
 use App\Core\Infrastructure\Models\Reservation;
-use Illuminate\Support\Facades\DB;
+use App\Core\Libraries\Reservation\Repositories\ReservationRepositoryInterface;
 
-class ReservationRepository
+class ReservationRepository implements ReservationRepositoryInterface
 {
     public function __construct(
         private Reservation $reservationModel,
@@ -15,7 +15,7 @@ class ReservationRepository
     public function list()
     {
         return $this->reservationModel->with(
-            ['seat', 'passenger', 'schedule.route']
+            ['seats', 'passenger', 'schedule.route']
         )->get();
     }
 
@@ -23,7 +23,22 @@ class ReservationRepository
     {
         return $this->reservationModel
             ->with(
-                ['seat', 'passenger', 'schedule', 'schedule.route']
+                ['seats', 'passenger', 'schedule', 'schedule.route']
             )->find($id);
+    }
+
+    public function getReservedSeats($scheduleId): array
+    {
+        return $this->reservationModel
+            ->select(
+                "seat.id",
+                "seat.seat_number",
+            )
+            ->join("reservation_seat", "reservation_seat.reservation_id", "=", "reservation.id")
+            ->join("seat", "seat.id", "=", "reservation_seat.seat_id")
+            ->where('schedule_id', "=", $scheduleId)
+            ->where('status', "=", "approved")
+            ->get()
+            ->toArray();
     }
 }
