@@ -58,4 +58,25 @@ class ReservationController extends Controller
         $reservation = $reservationQuery->getOne($id);
         return new ReservationResource($reservation);
     }
+
+    /**
+     * @OA\Post(
+     *     path="/api/reservations",
+     *     summary="Create reservation",
+     *     tags={"reservations"},
+     *     @OA\RequestBody(
+     *         description="Reservation object",
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/Reservation")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Reservation"
+     *     )
+     * )
+     */
+    public function create(CreateReservationCommand $createReservation)
+    {
+        return new ReservationResource($createReservation->execute());
+    }
 }

@@ -14,7 +14,7 @@ class ReservationResource extends JsonResource
             'id' => $this->id,
             'attributes' => [
                 'routeName' => $this->schedule->route->name,
-                'seatNum' => $this->seat->seat_number,
+                'seats' => array_column($this->seats->toArray(), 'seat_number'),
                 'passenger' => [
                     "name" => $this->passenger->name,
                     "email" => $this->passenger->email
