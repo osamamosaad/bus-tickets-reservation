@@ -1,0 +1,157 @@
+{
+	"info": {
+		"_postman_id": "4b73ee2c-d7ea-4b3d-9981-21198d281bb0",
+		"name": "Reservations",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1939117"
+	},
+	"item": [
+		{
+			"name": "Reservations",
+			"item": [
+				{
+					"name": "Creare Reservation",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"data\": {\n        \"type\": \"Reservation\",\n        \"attributes\": {\n            \"seats\": [\n                \"A1\",\n                \"A8\",\n                \"A9\",\n                \"B8\",\n                \"B7\",\n                \"A5\"\n            ],\n            \"scheduleId\": 2,\n            \"passenger\": {\n                \"name\": \"osama\",\n                \"email\": \"osadmaddds@example.org\"\n            },\n            \"pickup\": \"pickup point\",\n            \"destination\": \"destination point\",\n            \"status\": \"pending\"\n        }\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:9004/api/reservations",
+							"host": [
+								"localhost"
+							],
+							"port": "9004",
+							"path": [
+								"api",
+								"reservations"
+							]
+						},
+						"description": "This endpoint is used to create a reservation.\n\nHere I am following the JsonApi Format here\n\nParameters:\n\n- `data` (object): The main container for the reservation data.\n    - `type` (string): Specifies the resource type of the data, which is \"Reservation\" in this case.\n    - `attributes` (object): Contains the attributes of the reservation.\n        - `seats` (array): An array of seat numbers to be reserved.\n        - `scheduleId` (integer): The ID of the schedule for the reservation.\n        - `passenger` (object): Contains the details of the passenger.\n            - `name` (string): The name of the passenger.\n            - `email` (string): The email address of the passenger.\n        - `pickup` (string): The pickup point for the reservation.\n        - `destination` (string): The destination point for the reservation.\n        - `status` (string) optinal: The status of the reservation, which is set to \"pending\" in this example.\n\n**Note:**\n\nThe **`status`** parameter is optional. You can use the `status` parameter to set the status of the reservation request as \"pending\". This indicates that the request will be locked for 2 minutes, preventing other users from making a reservation using the same request. This lock gives the user who initiated the booking process a chance to complete the reservation in case of errors or any unexpected issues. If the reservation is successfully completed, the system will release the lock. However, if the reservation fails, the lock will persist, allowing the user to try again."
+					},
+					"response": []
+				},
+				{
+					"name": "List Reservations",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "List the Most frequent trip",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:9004/api/reservations/most-frequent-trip",
+							"host": [
+								"localhost"
+							],
+							"port": "9004",
+							"path": [
+								"api",
+								"reservations",
+								"most-frequent-trip"
+							]
+						},
+						"description": "This is an Api endpoint that returns the most frequent trip booked by each user  \n  \n**Note:** I didn't follow the JsonApi specifications to ensure that the response schema matches the structure of the task request."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Reservation By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:9004/api/reservations/1",
+							"host": [
+								"localhost"
+							],
+							"port": "9004",
+							"path": [
+								"api",
+								"reservations",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Reservation",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:9004/api/reservations/1",
+							"host": [
+								"localhost"
+							],
+							"port": "9004",
+							"path": [
+								"api",
+								"reservations",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Schedules Trips",
+			"item": [
+				{
+					"name": "List Schedules Trips",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:9004/api/schedules",
+							"host": [
+								"localhost"
+							],
+							"port": "9004",
+							"path": [
+								"api",
+								"schedules"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get  Schedules Trip By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:9004/api/schedules/1",
+							"host": [
+								"localhost"
+							],
+							"port": "9004",
+							"path": [
+								"api",
+								"schedules",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
