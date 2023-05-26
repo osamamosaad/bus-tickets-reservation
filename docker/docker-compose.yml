@@ -1,5 +1,23 @@
 version: "3.8"
 services:
+  carefer-mysql:
+    image: mysql:8.0
+    container_name: carefer-mysql8-${ENV}
+    hostname: carefer-mysql8-${ENV}
+    restart: always
+    networks:
+      - carefer-network
+    expose:
+      - 3306
+    ports:
+      - ${CAREFER_MYSQL_HOST_PORT:?err}:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=${CAREFER_MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${CAREFER_MYSQL_DATABASE}
+      - MYSQL_USER=${CAREFER_MYSQL_USER}
+      - MYSQL_PASSWORD=${CAREFER_MYSQL_PASSWORD}
+    volumes:
+      - ${CAREFER_MYSQL_HOST_VOLUME}:/var/lib/mysql:delegated
   carefer-php:
     image: carefer-php-${CAREFER_PHP_VERSION}
     build:
@@ -23,6 +41,9 @@ services:
       - ${CAREFER_HOST_WORKING_DIR}:/var/www:delegated
       - ./php-${CAREFER_PHP_VERSION}/.composer:/home/osama/.composer:delegated
       - ./php-${CAREFER_PHP_VERSION}/log/apache2:/var/log/apache2:delegated
+    depends_on:
+      - carefer-mysql
+      - carefer-redis
   carefer-redis:
     image: redis:6.0
     container_name: carefer-redis-${ENV}
@@ -34,24 +55,6 @@ services:
       - 6379
     volumes:
       - ${CAREFER_REDIS_HOST_VOLUME:?err}:/data:delegated
-  carefer-mysql:
-    image: mysql:8.0
-    container_name: carefer-mysql8-${ENV}
-    hostname: carefer-mysql8-${ENV}
-    restart: always
-    networks:
-      - carefer-network
-    expose:
-      - 3306
-    ports:
-      - ${CAREFER_MYSQL_HOST_PORT:?err}:3306
-    environment:
-      - MYSQL_ROOT_PASSWORD=${CAREFER_MYSQL_ROOT_PASSWORD}
-      - MYSQL_DATABASE=${CAREFER_MYSQL_DATABASE}
-      - MYSQL_USER=${CAREFER_MYSQL_USER}
-      - MYSQL_PASSWORD=${CAREFER_MYSQL_PASSWORD}
-    volumes:
-      - ${CAREFER_MYSQL_HOST_VOLUME}:/var/lib/mysql:delegated
   carefer-pma:
     image: phpmyadmin/phpmyadmin
     container_name: carefer-pma-${ENV}
