@@ -7,7 +7,7 @@ use App\Core\Libraries\Reservation\DiscountTypes\RouteDiscount;
 use App\Core\Libraries\Reservation\DiscountTypes\SeatDiscount;
 use App\Core\Libraries\Reservation\Repositories\DiscountRepositoryInterface;
 
-class ReservationDiscount
+class ReservationPriceCalculator
 {
     public const DISCOUNT_TYPE_SEAT = 'seat';
 
@@ -18,7 +18,7 @@ class ReservationDiscount
     ) {
     }
 
-    public function calc($tripInfo): float
+    public function calc(array $tripInfo): float
     {
         $discount = $this->discountRepository->getActiveBigDiscount();
 

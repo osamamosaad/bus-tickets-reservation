@@ -14,7 +14,7 @@ class Reservation
     public const STATUS_CANCELED = 'canceled';
 
     public function __construct(
-        private ReservationDiscount $reservationDiscount,
+        private ReservationPriceCalculator $reservationPriceCalculator,
         private ReservationRepositoryInterface $reservationRepository,
     ) {
     }
@@ -27,7 +27,7 @@ class Reservation
         float $price,
         string $status = self::STATUS_PENDING
     ): ReservationModel {
-        $totalPrice = $this->reservationDiscount->calc([
+        $totalPrice = $this->reservationPriceCalculator->calc([
             'price' => $price,
             'scheduleId' => $scheduleId,
             'routeId' => $routeId,
