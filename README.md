@@ -17,7 +17,6 @@ In my solution, I haven't included the ability for passengers to set their pick-
 ## Application Architecture:
 - I built this app following DDD especially Transaction Script pattern with hexagonal architecture.
 - I separated the logic of the application from the framework, you will find it under directory named `app/core`, the directory structure as the follow:
-
 ```
 app/Core
     |- Application
@@ -82,8 +81,8 @@ This layer consists of:
 - [x] Follow Rest standards to create the APIs
 - [x] Use PHP-cs-fixer rules
 - [x] Create unit test
-- [] Use any logger method or library to have a full trace for all APIs requests with a correlation Id for each request
-- [] Secure your API with a fixed API key or fixed JWT token
+- [ ] Use any logger method or library to have a full trace for all APIs requests with a correlation Id for each request
+- [ ] Secure your API with a fixed API key or fixed JWT token
 - [X] API documentation [ Postman ] Swagger is plus.
 - [X] Database/ Data migration script(s).
 - [X] Deployment script “using containers is better”.
@@ -92,8 +91,8 @@ This layer consists of:
 - [x] List Orders
 - [x] Create order
 - [x] Read Order
-- []Update Order
-- [x]Delete Order (soft-delete)
+- [ ] Update Order
+- [x] Delete Order (soft-delete)
 
 
 Note:
