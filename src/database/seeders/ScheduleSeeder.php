@@ -17,8 +17,8 @@ class ScheduleSeeder extends Seeder
             [
                 'bus_id' => 1,
                 'route_id' => 1,
-                'departure_time' => Carbon::now(),
-                'arrival_time' => Carbon::now()->addHours(2),
+                'departure_time' => date_create()->modify('+30 day'),
+                'arrival_time' => date_create()->modify('+30 day'),
                 'price' => 100,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
@@ -26,8 +26,8 @@ class ScheduleSeeder extends Seeder
             [
                 'bus_id' => 2,
                 'route_id' => 2,
-                'departure_time' => Carbon::now(),
-                'arrival_time' => Carbon::now()->addHours(3),
+                'departure_time' => date_create()->modify('+30 day'),
+                'arrival_time' => date_create()->modify('+30 day'),
                 'price' => 200,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
